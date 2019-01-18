@@ -3,10 +3,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card card-default">
-                    <div class="card-header">Example Component</div>
+                    <div class="card-header">Reminder list</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        <ul v-if="reminders.length>0">
+                          <li v-for="reminder in reminders">
+                            {{reminder.content}}
+                          </li>
+                        </ul>
+                        <add-reminder></add-reminder>
                     </div>
                 </div>
             </div>
@@ -15,10 +20,26 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+    import { mapActions } from 'vuex'
+    import AddReminder from './AddReminderComponent'
     export default {
         name:'reminder-list',
         mounted() {
-            console.log('Component mounted.')
+          this.getReminders()
+        },
+        components:{
+          AddReminder
+        },
+        computed: {
+          ...mapGetters([
+            'reminders'
+          ])
+        },
+        methods:{
+          ...mapActions([
+            'getReminders'
+            ])
         }
     }
 </script>

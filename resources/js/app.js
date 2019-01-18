@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap');
-
+import {store} from './store';
 window.Vue = require('vue');
 
 /**
@@ -29,5 +29,6 @@ Vue.component('reminder-component', require('./components/ReminderComponent.vue'
  */
 
 const app = new Vue({
+    store,
     el: '#app'
 });

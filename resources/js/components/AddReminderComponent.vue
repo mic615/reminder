@@ -1,24 +1,34 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card card-default">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
+      <button v-on:click="add">Add reminder</button>
     </div>
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     export default {
       name:'add-reminder',
         mounted() {
             console.log('Component mounted.')
+        },
+        methods:{
+          ...mapActions([
+            'addReminder'
+          ]),
+          add:function(){
+            var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+            var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+            var recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            var that =this;
+            recognition.onresult = function(event) {
+              var data = {content: event.results[0][0].transcript};
+              that.addReminder(data);
+            }
+            recognition.start();
+          }
         }
     }
 </script>
